@@ -1,80 +1,75 @@
 // Typing Effect
-const text = [
+const roles = [
   "Cybersecurity Expert",
   "Bug Bounty Hunter",
-  "Founder @ CyberNock",
+  "API Security Specialist",
   "Breaking Systems Securely 🔥"
 ];
 
-let i = 0;
-let j = 0;
-let currentText = "";
-let isDeleting = false;
+let i = 0, j = 0, current = "", deleting = false;
 
 function type() {
-  currentText = text[i];
+  current = roles[i];
 
-  if (isDeleting) {
-    j--;
-  } else {
-    j++;
-  }
+  if (deleting) j--;
+  else j++;
 
-  document.querySelector(".typing").textContent = currentText.substring(0, j);
+  document.querySelector(".typing").textContent = current.substring(0, j);
 
-  if (!isDeleting && j === currentText.length) {
-    isDeleting = true;
+  if (!deleting && j === current.length) {
+    deleting = true;
     setTimeout(type, 1000);
     return;
   }
 
-  if (isDeleting && j === 0) {
-    isDeleting = false;
-    i = (i + 1) % text.length;
+  if (deleting && j === 0) {
+    deleting = false;
+    i = (i + 1) % roles.length;
   }
 
-  setTimeout(type, isDeleting ? 50 : 100);
+  setTimeout(type, deleting ? 50 : 100);
 }
-
 type();
 
 
-// Matrix Background
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw() {
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#0f0";
-  ctx.font = fontSize + "px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-
-    drops[i]++;
+// Particles
+tsParticles.load("particles", {
+  particles: {
+    number: { value: 80 },
+    color: { value: "#00ffff" },
+    links: { enable: true, color: "#00ffff" },
+    move: { enable: true }
   }
-}
-
-setInterval(draw, 33);
+});
 
 
-// Resume Download
+// Resume
 function downloadResume() {
   window.open("resume.pdf");
+}
+
+
+// Chat Toggle
+function toggleChat() {
+  const box = document.getElementById("chatbox");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+
+// Simple AI Chat (local)
+function handleChat(e) {
+  if (e.key === "Enter") {
+    let input = e.target.value;
+    let body = document.getElementById("chatBody");
+
+    body.innerHTML += `<p><b>You:</b> ${input}</p>`;
+
+    let reply = "I am Vijay's portfolio assistant.";
+
+    if (input.toLowerCase().includes("skills")) reply = "VAPT, API Security, Cloud.";
+    if (input.toLowerCase().includes("contact")) reply = "Email: vijay@example.com";
+
+    body.innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
+    e.target.value = "";
+  }
 }
