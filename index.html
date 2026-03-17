@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Vijay Kumar | CyberNock</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Vijay Kumar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 </head>
+
 <body>
 
-<canvas id="matrix"></canvas>
+<div id="particles"></div>
 
-<div class="container">
+<div class="main">
 
-  <h1 class="glitch" data-text="Vijay Kumar">Vijay Kumar</h1>
-
+  <h1 class="glow">Vijay Kumar</h1>
   <p class="typing"></p>
 
-  <div class="terminal">
-    <p>> Initializing CyberNock...</p>
-    <p>> Loading exploits...</p>
-    <p>> Access Granted ✅</p>
+  <div class="glass">
+    <h2>🧠 About</h2>
+    <p>Technical Lead in Cybersecurity specializing in VAPT, API Security & Cloud.</p>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <h2>🛡️ Skills</h2>
-      <p>VAPT, API Security, Cloud Security, Bug Bounty</p>
-    </div>
-
-    <div class="card">
-      <h2>🚀 Projects</h2>
-      <p>CyberNock Training Platform</p>
-    </div>
-
-    <div class="card">
-      <h2>📡 Contact</h2>
-      <p>Email: vijay@example.com</p>
-    </div>
+  <div class="grid">
+    <div class="card">🛡️ Web & API Pentesting</div>
+    <div class="card">☁️ Cloud Security</div>
+    <div class="card">💰 Bug Bounty</div>
+    <div class="card">⚡ Exploit Development</div>
   </div>
 
-  <button onclick="downloadResume()">⬇ Download Resume</button>
+  <div class="actions">
+    <button onclick="downloadResume()">Download Resume</button>
+    <button onclick="toggleChat()">AI Chat</button>
+  </div>
 
+</div>
+
+<!-- Chatbot -->
+<div class="chatbox" id="chatbox">
+  <div class="chat-header">Ask Me</div>
+  <div class="chat-body" id="chatBody"></div>
+  <input id="chatInput" placeholder="Ask something..." onkeypress="handleChat(event)">
 </div>
 
 <script src="script.js"></script>
