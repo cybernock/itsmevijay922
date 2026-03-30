@@ -1,50 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Vijay Kumar</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Scanner Pro - Advanced XSS Vulnerability Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-particles" id="particles"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-shield-virus"></i>
+                <span>XSS Scanner Pro</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <a href="https://github.com" target="_blank" class="github-btn">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
 
-<div id="particles"></div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="https://github.com" target="_blank">GitHub</a>
+    </div>
 
-<div class="main">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-bolt"></i>
+                <span>v3.0 - WAF Bypass & Confidence Scoring</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="glitch" data-text="XSS Scanner Pro">XSS Scanner Pro</span>
+            </h1>
+            <p class="hero-subtitle">Advanced XSS vulnerability detection with 100% confidence scoring</p>
+            <p class="hero-description">
+                Professional-grade XSS scanner with WAF detection, context-aware analysis, 
+                and confidence-based vulnerability reporting. Test your applications against 200+ attack vectors.
+            </p>
+        </div>
 
-  <h1 class="glow">Vijay Kumar</h1>
-  <p class="typing"></p>
+        <!-- Scanner Panel -->
+        <div class="scanner-panel">
+            <div class="panel-header">
+                <div class="panel-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="panel-title">XSS Scanner Engine v3.0</span>
+                <div class="panel-status">
+                    <span class="status-dot" id="engine-status"></span>
+                    <span id="status-text">Ready</span>
+                </div>
+            </div>
+            
+            <!-- WAF Detection Banner -->
+            <div class="waf-banner" id="waf-banner">
+                <div class="waf-info">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <span class="waf-label">WAF Status:</span>
+                        <span class="waf-value" id="waf-status">Not Detected</span>
+                    </div>
+                </div>
+                <div class="waf-type" id="waf-type"></div>
+            </div>
+            
+            <div class="scanner-input-area">
+                <!-- Target URL -->
+                <div class="input-group">
+                    <label for="target-url">Target URL</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-link"></i>
+                        <input 
+                            type="url" 
+                            id="target-url" 
+                            placeholder="https://example.com/search?q=test"
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+                
+                <!-- HTTP Method & Parameter Row -->
+                <div class="input-row">
+                    <div class="input-group half">
+                        <label for="http-method">HTTP Method</label>
+                        <div class="select-wrapper">
+                            <i class="fas fa-server"></i>
+                            <select id="http-method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group half">
+                        <label for="target-param">Target Parameter</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-code"></i>
+                            <input 
+                                type="text" 
+                                id="target-param" 
+                                placeholder="q, search, id (optional)"
+                                autocomplete="off"
+                            >
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Advanced Options Toggle -->
+                <div class="advanced-toggle" id="advanced-toggle">
+                    <i class="fas fa-cog"></i>
+                    <span>Advanced Options</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                
+                <!-- Advanced Options Panel -->
+                <div class="advanced-panel" id="advanced-panel">
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="waf-bypass" checked>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Enable WAF Bypass Techniques</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="context-aware" checked>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Context-Aware Detection</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="blind-xss" checked>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Test Blind XSS Payloads</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="dom-xss" checked>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Test DOM-based XSS</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="template-inj" checked>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">Test Template Injection</span>
+                        </label>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label for="confidence-threshold">Confidence Threshold: <span id="confidence-value">70%</span></label>
+                        <input type="range" id="confidence-threshold" min="50" max="100" value="70" class="slider">
+                    </div>
+                </div>
+                
+                <button id="scan-btn" class="scan-btn">
+                    <i class="fas fa-radar"></i>
+                    <span>Scan for XSS</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
 
-  <div class="glass">
-    <h2>🧠 About</h2>
-    <p>Technical Lead in Cybersecurity specializing in VAPT, API Security & Cloud.</p>
-  </div>
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progress-container">
+                <div class="progress-header">
+                    <span class="progress-text" id="progress-text">Initializing...</span>
+                    <span class="progress-percent" id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-stats">
+                    <span id="tests-completed">0/0 tests</span>
+                    <span id="vulns-found">0 vulnerabilities</span>
+                    <span id="waf-bypassed">0 WAF bypasses</span>
+                </div>
+            </div>
 
-  <div class="grid">
-    <div class="card">🛡️ Web & API Pentesting</div>
-    <div class="card">☁️ Cloud Security</div>
-    <div class="card">💰 Bug Bounty</div>
-    <div class="card">⚡ Exploit Development</div>
-  </div>
+            <!-- Terminal Output -->
+            <div class="terminal" id="terminal">
+                <div class="terminal-header">
+                    <span class="terminal-title"><i class="fas fa-terminal"></i> scan_output.log</span>
+                    <div class="terminal-actions">
+                        <button id="export-btn" class="terminal-btn" title="Export results">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button id="copy-btn" class="terminal-btn" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button id="clear-btn" class="terminal-btn" title="Clear output">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-line welcome">
+                        <span class="timestamp">[00:00:00]</span>
+                        <span class="prompt">$</span>
+                        <span class="command">XSS Scanner Pro v3.0 - Advanced Detection Engine</span>
+                    </div>
+                    <div class="terminal-line welcome">
+                        <span class="timestamp">[00:00:00]</span>
+                        <span class="prompt">$</span>
+                        <span class="command">Loaded 200+ test payloads from payloads.txt</span>
+                    </div>
+                    <div class="terminal-line welcome">
+                        <span class="timestamp">[00:00:00]</span>
+                        <span class="prompt">$</span>
+                        <span class="command">Features: WAF Detection | Confidence Scoring | Context Analysis</span>
+                    </div>
+                    <div class="terminal-line welcome">
+                        <span class="timestamp">[00:00:00]</span>
+                        <span class="prompt">$</span>
+                        <span class="command">Enter a target URL to begin scanning...</span>
+                    </div>
+                </div>
+            </div>
 
-  <div class="actions">
-    <button onclick="downloadResume()">Download Resume</button>
-    <button onclick="toggleChat()">AI Chat</button>
-  </div>
+            <!-- Results Panel -->
+            <div class="results-panel" id="results-panel">
+                <div class="result-header" id="result-header">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Scan Results</span>
+                </div>
+                
+                <!-- Confidence Meter -->
+                <div class="confidence-meter" id="confidence-meter">
+                    <div class="confidence-label">
+                        <span>Overall Confidence</span>
+                        <span class="confidence-score" id="confidence-score">0%</span>
+                    </div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" id="confidence-fill"></div>
+                    </div>
+                    <p class="confidence-desc" id="confidence-desc">No scan data available</p>
+                </div>
+                
+                <!-- Statistics Grid -->
+                <div class="stats-grid-result" id="stats-grid">
+                    <div class="stat-box">
+                        <i class="fas fa-vial"></i>
+                        <span class="stat-value" id="stat-total">0</span>
+                        <span class="stat-label">Tests Run</span>
+                    </div>
+                    <div class="stat-box vuln">
+                        <i class="fas fa-bug"></i>
+                        <span class="stat-value" id="stat-vulns">0</span>
+                        <span class="stat-label">Vulnerabilities</span>
+                    </div>
+                    <div class="stat-box bypass">
+                        <i class="fas fa-unlock"></i>
+                        <span class="stat-value" id="stat-bypass">0</span>
+                        <span class="stat-label">WAF Bypasses</span>
+                    </div>
+                    <div class="stat-box time">
+                        <i class="fas fa-clock"></i>
+                        <span class="stat-value" id="stat-time">0s</span>
+                        <span class="stat-label">Duration</span>
+                    </div>
+                </div>
+                
+                <div class="result-content" id="result-content">
+                    <!-- Results will be injected here -->
+                </div>
+            </div>
+        </div>
 
-</div>
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p><strong>Disclaimer:</strong> This is a demo tool for educational purposes only. It does not perform real vulnerability scanning. Always obtain proper authorization before testing any system. The confidence scoring and WAF detection are simulated for demonstration.</p>
+        </div>
+    </section>
 
-<!-- Chatbot -->
-<div class="chatbox" id="chatbox">
-  <div class="chat-header">Ask Me</div>
-  <div class="chat-body" id="chatBody"></div>
-  <input id="chatInput" placeholder="Ask something..." onkeypress="handleChat(event)">
-</div>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <span class="section-label">Features</span>
+            <h2>Advanced Detection Capabilities</h2>
+            <p>Professional-grade scanning with confidence scoring and WAF bypass detection</p>
+        </div>
 
-<script src="script.js"></script>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3>100% Confidence Scoring</h3>
+                <p>Each vulnerability is assigned a confidence score based on payload execution probability, context analysis, and response behavior.</p>
+                <div class="feature-tags">
+                    <span class="tag">100% Verified</span>
+                    <span class="tag">95% High</span>
+                    <span class="tag">85% Medium</span>
+                </div>
+            </div>
 
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <h3>WAF Detection & Bypass</h3>
+                <p>Automatically detects Web Application Firewalls and attempts bypass techniques including encoding, obfuscation, and case variation.</p>
+                <div class="feature-tags">
+                    <span class="tag">Auto-Detect</span>
+                    <span class="tag">50+ Bypasses</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h3>Context-Aware Analysis</h3>
+                <p>Detects XSS in different contexts: HTML, JavaScript, CSS, URL, and attribute contexts with specialized payloads for each.</p>
+                <div class="feature-tags">
+                    <span class="tag">HTML Context</span>
+                    <span class="tag">JS Context</span>
+                    <span class="tag">CSS Context</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>200+ Test Payloads</h3>
+                <p>Comprehensive payload database covering Reflected, Stored, DOM, Blind XSS, and Template Injection vulnerabilities.</p>
+                <div class="feature-tags">
+                    <span class="tag">Reflected</span>
+                    <span class="tag">Stored</span>
+                    <span class="tag">DOM</span>
+                    <span class="tag">Blind</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-export"></i>
+                </div>
+                <h3>Export Results</h3>
+                <p>Export scan results in multiple formats including JSON, CSV, and HTML reports for documentation and sharing.</p>
+                <div class="feature-tags">
+                    <span class="tag">JSON</span>
+                    <span class="tag">CSV</span>
+                    <span class="tag">HTML</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <h3>Real-time Terminal</h3>
+                <p>Watch the scanning process in real-time with detailed logging of each test, response analysis, and detection events.</p>
+                <div class="feature-tags">
+                    <span class="tag">Live Output</span>
+                    <span class="tag">Timestamps</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <span class="section-label">About</span>
+                <h2>Advanced XSS Detection Methodology</h2>
+                <p>
+                    XSS Scanner Pro uses a multi-layered approach to vulnerability detection. Our confidence scoring 
+                    system analyzes payload execution probability, response patterns, and context to provide accurate results.
+                </p>
+                
+                <div class="methodology-grid">
+                    <div class="method-item">
+                        <div class="method-number">01</div>
+                        <h4>WAF Detection</h4>
+                        <p>Probes target with benign requests to identify WAF presence and type</p>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-number">02</div>
+                        <h4>Payload Testing</h4>
+                        <p>Tests 200+ payloads across all XSS categories and contexts</p>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-number">03</div>
+                        <h4>Confidence Scoring</h4>
+                        <p>Assigns confidence based on payload type, context, and response</p>
+                    </div>
+                    <div class="method-item">
+                        <div class="method-number">04</div>
+                        <h4>Bypass Attempts</h4>
+                        <p>If WAF detected, attempts encoding and obfuscation bypasses</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h4>Responsible Disclosure</h4>
+                        <p>Always follow responsible disclosure practices when discovering vulnerabilities. Never test systems without explicit permission from the owner.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>confidence_algorithm.js</span>
+                    </div>
+                    <pre><code>function calculateConfidence(payload, context, response) {
+  let score = payload.baseConfidence;
+  
+  // Context bonus
+  if (context.matches(payload.targetContext)) {
+    score += 10;
+  }
+  
+  // Response analysis
+  if (response.reflected && !response.encoded) {
+    score += 15;
+  }
+  
+  // WAF bypass bonus
+  if (payload.wafBypass && waf.detected) {
+    score += 5;
+  }
+  
+  return Math.min(score, 100);
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-shield-virus"></i>
+                    <span>XSS Scanner Pro</span>
+                </div>
+                <p>Educational tool for understanding XSS vulnerabilities, confidence scoring, and WAF bypass techniques.</p>
+                <div class="social-links">
+                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://owasp.org/www-community/attacks/xss/" target="_blank">OWASP XSS Guide</a></li>
+                    <li><a href="https://portswigger.net/web-security/cross-site-scripting" target="_blank">PortSwigger XSS</a></li>
+                    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html" target="_blank">XSS Filter Evasion</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-disclaimer">
+                <h4>Disclaimer</h4>
+                <p>This tool is for educational purposes only. The authors are not responsible for any misuse or damage caused by this tool. Confidence scoring and WAF detection are simulated.</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 XSS Scanner Pro. Built for educational purposes.</p>
+            <p class="made-with">Made with <i class="fas fa-heart"></i> for the security community</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
